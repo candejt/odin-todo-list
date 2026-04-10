@@ -1,13 +1,24 @@
 import "./styles.css";
 import { Todo } from "./todo.js";
+import { Project } from "./project.js";
 
-const test = new Todo (
-    "webpack",
-    "hacer proyecto todo list",
-    "2026-04-14",
-    "Alta"
+const houseProject= new Project ("House");
+
+const task1 = new Todo (
+    "Clean kitchen",
+    "Including oven",
+    "Today",
+    "High"
 );
-console.log ("estado inicial:", test.checkList);
-test.toggleComplete();
-console.log("estado despues de primer click:",test.checkList)
-console.log(test)
+const task2 = new Todo (
+    "Buy dog's food",
+    "Try new brand",
+    "Tomorrow",
+    "Low"
+);
+
+houseProject.addTodo(task1);
+houseProject.addTodo(task2);
+
+console.log("My project:", houseProject);
+console.log("Task List:", houseProject.getTodos());
