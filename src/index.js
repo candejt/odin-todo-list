@@ -73,3 +73,12 @@ addProjectBtn.addEventListener('click',()=>{
         newProjectInput.value="";
     }
 });
+//
+document.addEventListener('click', (e) => {
+    if(e.target.classList.contains('delete-btn')){
+        const deleteTitle=e.target.dataset.title;
+
+        currentProject.removeTodo(deleteTitle);
+        renderProject(currentProject);
+    }
+})

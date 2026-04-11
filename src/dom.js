@@ -33,6 +33,12 @@ export function renderProject(project){
             });
             todoDiv.appendChild(ul);
         }
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent="Delete";
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.dataset.title=todo.title;
+        todoDiv.appendChild(deleteBtn);
+
         todoContainer.appendChild(todoDiv);
     });
 };
