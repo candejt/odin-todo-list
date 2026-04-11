@@ -3,16 +3,9 @@ import { Todo } from "./todo.js";
 import { Project } from "./project.js";
 import { renderProject, renderSidebar } from "./dom.js";
 import { Library } from "./library.js";
-
 //
-const myLibrary = new Library();
-
-const defaultProject = new Project("General");
-myLibrary.addProject(defaultProject);
-
-let currentProject = defaultProject;
-
-renderProject(currentProject);
+let myLibrary = new Library();
+let currentProject;
 
 //
 const form=document.getElementById('todo-form');
@@ -56,6 +49,7 @@ projectList.addEventListener('click', (e) => {
             renderProject(currentProject)
         }
     }
+    saveData()
 });
 //
 const addProjectBtn=document.getElementById('add-project-btn');
@@ -72,6 +66,7 @@ addProjectBtn.addEventListener('click',()=>{
 
         newProjectInput.value="";
     }
+    saveData()
 });
 //
 document.addEventListener('click', (e) => {
@@ -81,4 +76,36 @@ document.addEventListener('click', (e) => {
         currentProject.removeTodo(deleteTitle);
         renderProject(currentProject);
     }
-})
+    saveData()
+});
+//
+function saveData(){
+    localStorage.setItem('myTodoLibrary', JSON.stringify(myLibrary.projects));
+}
+//
+const savedData= JSON.parse(localStorage.getItem('myTodoLibrary'));
+
+if (savedData){
+    myLibrary.projects = savedData.map(projItem => {
+        const project = new Project(projItem.name);
+
+        projItem.todos.forEach(todoItem => {
+            const todo = new Todo(
+                todoItem.title,
+                todoItem.description,
+                todoItem.dueDate,
+                todoItem.priority,
+                todoItem.checklist
+            );
+            project.addTodo(todo);
+        });
+        return project;
+    });
+    currentProject=myLibrary.projects[0];
+}else{
+    const defaultProject=new Project("Default");
+    myLibrary.addProject(defaultProject);
+    currentProject=defaultProject;
+}
+renderSidebar(myLibrary);
+renderProject(currentProject);
