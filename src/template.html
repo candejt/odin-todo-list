@@ -6,6 +6,18 @@
     <title>Todo List</title>
 </head>
 <body>
-    
+    <div id="content"></div>
+    <div id="form-container">
+        <form id="todo-form">
+            <input type="text" id="title" placeholder="Title" required>
+            <input type="date" id="dueDate">
+            <select id="priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
 </body>
 </html>
