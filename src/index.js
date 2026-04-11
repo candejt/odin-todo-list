@@ -58,3 +58,18 @@ projectList.addEventListener('click', (e) => {
     }
 });
 //
+const addProjectBtn=document.getElementById('add-project-btn');
+const newProjectInput=document.getElementById('new-project-name');
+
+addProjectBtn.addEventListener('click',()=>{
+    const name=newProjectInput.value.trim();
+
+    if(name !== ''){
+        const newProject = new Project(name);
+        myLibrary.addProject(newProject);
+
+        renderSidebar(myLibrary);
+
+        newProjectInput.value="";
+    }
+});
