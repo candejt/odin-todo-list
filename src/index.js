@@ -2,25 +2,16 @@ import "./styles.css";
 import { Todo } from "./todo.js";
 import { Project } from "./project.js";
 import { renderProject  } from "./dom.js";
+import { Library } from "./library.js";
 
-const houseProject= new Project ("House");
+const myLibrary = new Library();
 
-const task1 = new Todo (
-    "Clean kitchen",
-    "Remember oven",
-    "Today",
-    "High"
-);
-const task2 = new Todo (
-    "Buy dog's food",
-    "Try new brand",
-    "Tomorrow",
-    "Low"
-);
+const defaultProject = new Project("General");
+myLibrary.addProject(defaultProject);
 
-houseProject.addTodo(task1);
-houseProject.addTodo(task2);
-renderProject(houseProject);
+let currentProject = defaultProject;
+
+renderProject(currentProject);
 
 const form=document.getElementById('todo-form');
 
@@ -31,9 +22,9 @@ form.addEventListener('submit', (e)=>{
 
     const newTask=new Todo(title, "Optional description", date, priority);
 
-    houseProject.addTodo(newTask);
+    currentProject.addTodo(newTask);
 
-    renderProject(houseProject);
+    renderProject(currentProject);
 
     form.reset();
 })
