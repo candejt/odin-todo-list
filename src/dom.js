@@ -15,7 +15,39 @@ export function renderProject(project){
     project.todos.forEach(todo=>{
         const todoDiv=document.createElement('div');
         todoDiv.classList.add('todo-item');
-        todoDiv.textContent=`${todo.title} - ${todo.dueDate}`;
+        todoDiv.innerHTML=`
+            <h4>${todo.title}</h4>
+            <p>Date: ${todo.dueDate} | Priority: ${todo.priority}</p>
+        `;
+        if (todo.checklist.length>0){
+            const ul = document.createElement('ul');
+            ul.classList.add('sub-task-list');
+
+            todo.checklist.forEach(item => {
+                const li=document.createElement('li');
+                li.innerHTML=`
+                    <input type="checkbox" ${item.done ? 'checked': ''}>
+                    <span>${item.text}</span>
+                `;
+                ul.appendChild(li);
+            });
+            todoDiv.appendChild(ul);
+        }
         todoContainer.appendChild(todoDiv);
     });
-}
+};
+export function renderSidebar(library){
+    const projectContainer = document.getElementById('project-list');
+    projectContainer.innerHTML='';
+
+    library.getProjects().forEach(project => {
+        const li = document.createElement('li');
+        li.textContent = project.name;
+
+        li.dataset.projectName = project.name;
+
+        li.style.cursor= "pointer";
+
+        projectContainer.appendChild(li);
+    });
+};

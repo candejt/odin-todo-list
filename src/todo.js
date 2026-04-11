@@ -5,14 +5,18 @@ export class Todo{
         this.description=description;
         this.dueDate=dueDate;
         this.priority=priority;
-        this.checkList=false;
+        this.checklist=[];
+        this.completed=false;
+    }
+    addChecklistItem(text){
+        this.checklist.push({text:text, done:false});
     }
     toggleComplete(){
-        if (this.checkList===true){
-            this.checkList=false;
+        if (this.completed===true){
+            this.completed=false;
         }else{
-            this.checkList=true;
+            this.completed=true;
         }
-        console.log(`Task "${this.title}" is now: ${this.checkList ? 'Done' : 'Pending'}`);
+        console.log(`Task "${this.title}" is now: ${this.completed ? 'Done' : 'Pending'}`);
     }
 }
