@@ -16,9 +16,10 @@ form.addEventListener('submit', (e)=>{
     const title=document.getElementById('title').value;
     const date=document.getElementById('dueDate').value;
     const priority=document.getElementById('priority').value;
+    const description = document.getElementById('description').value;
     const checklistData=document.getElementById('checklist-input').value;
 
-    const newTask=new Todo(title, "Optional description", date, priority);
+    const newTask=new Todo(title, date, priority, description);
 
     if (checklistData.trim() !== ""){
         const items = checklistData.split(',').map(item=>item.trim());
@@ -39,17 +40,28 @@ renderSidebar(myLibrary);
 const projectList = document.getElementById('project-list');
 
 projectList.addEventListener('click', (e) => {
-    if (e.target.tagName === 'LI'){
-        const name = e.target.dataset.projectName;
+    const projectLi = e.target.closest('li[data-project]');
+    if (!projectLi) return;
 
-        const projectFound = myLibrary.findProject(name);
-        
-        if (projectFound) {
-            currentProject = projectFound;
-            renderProject(currentProject)
+    const name = projectLi.dataset.project;
+    console.log(name);
+
+    if (e.target.classList.contains('project-delete-btn')){
+        myLibrary.removeProject(name);
+
+        if (currentProject.name === name){
+            currentProject=myLibrary.projects[0] || null;
         }
+        saveData();
+        renderSidebar(myLibrary);
+        renderProject(currentProject);
+        return;
     }
-    saveData()
+    const projectFound = myLibrary.findProject(name);
+    if (projectFound){
+        currentProject=projectFound;
+        renderProject(currentProject);
+    }
 });
 //
 const addProjectBtn=document.getElementById('add-project-btn');
@@ -109,3 +121,17 @@ if (savedData){
 }
 renderSidebar(myLibrary);
 renderProject(currentProject);
+
+// 
+function init() {
+    if (myLibrary.projects.length > 0) {
+        currentProject = myLibrary.projects[0];
+    } else {
+        const general = new Project('General');
+        myLibrary.addProject(general);
+        currentProject = general;
+    }
+    renderSidebar(myLibrary);
+    renderProject(currentProject);
+}
+init(); 

@@ -12,7 +12,7 @@ export class Library{
     getProjects(){
         return this.projects;
     }
-    findProject(){
+    findProject(name){
         return this.projects.find(p => p.name===name);
     }
 }

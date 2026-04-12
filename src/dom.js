@@ -1,6 +1,7 @@
 
 export function renderProject(project){
     const content=document.getElementById('content');
+    if(!content || !project) return;
 
     content.innerHTML='';
 
@@ -17,7 +18,8 @@ export function renderProject(project){
         todoDiv.classList.add('todo-item');
         todoDiv.innerHTML=`
             <h4>${todo.title}</h4>
-            <p>Date: ${todo.dueDate} | Priority: ${todo.priority}</p>
+            <p>Date: ${todo.dueDate || 'No date'} | Priority: ${todo.priority || 'Normal'}</p>
+            <p>Description: <br> ${todo.description}</p>
         `;
         if (todo.checklist.length>0){
             const ul = document.createElement('ul');
@@ -48,12 +50,33 @@ export function renderSidebar(library){
 
     library.getProjects().forEach(project => {
         const li = document.createElement('li');
-        li.textContent = project.name;
-
-        li.dataset.projectName = project.name;
-
+        li.dataset.project = project.name;
         li.style.cursor= "pointer";
 
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = project.name;
+        nameSpan.classList.add('project-name-text');
+        li.appendChild(nameSpan);
+
+        const projectDeleteBtn=document.createElement('button');
+        projectDeleteBtn.textContent = "Delete";
+        projectDeleteBtn.classList.add('project-delete-btn');
+        projectDeleteBtn.dataset.project = project.name;
+        projectDeleteBtn.style.cursor= "pointer";
+        li.appendChild(projectDeleteBtn);
+
+        if (project.todos.length > 0){
+            const previewList = document.createElement('ul'); 
+            previewList.classList.add('preview-tasks');
+            previewList.style.pointerEvents = 'none';
+
+            project.todos.forEach(todo => {
+                const todoItem = document.createElement('li');
+                todoItem.textContent=todo.title;
+                previewList.appendChild(todoItem);
+            });
+            li.appendChild(previewList);
+        };
         projectContainer.appendChild(li);
     });
 };
