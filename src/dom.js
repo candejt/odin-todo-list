@@ -14,13 +14,41 @@ export function renderProject(project){
     content.appendChild(todoContainer);
 
     project.todos.forEach(todo=>{
+        const todoForm = document.createElement('form');
+        todoForm.classList.add('todo-item-form');
+        todoForm.dataset.todoId = todo.id;
+
         const todoDiv=document.createElement('div');
         todoDiv.classList.add('todo-item');
         todoDiv.innerHTML=`
-            <h4>${todo.title}</h4>
-            <p>Date: ${todo.dueDate || 'No date'} | Priority: ${todo.priority || 'Normal'}</p>
-            <p>Description: <br> ${todo.description}</p>
+            <div class="todo-header">
+                <h4>${todo.title}</h4>
+                <p>Date: ${todo.dueDate || 'No date'} | Priority: ${todo.priority || 'Normal'}</p>
+                <button type="button" class="edit-btn">Edit</button>
+            </div>
+            <p class="todo-description">Description:<br> ${todo.description || ''}</p>
         `;
+        const editView = document.createElement('div');
+        editView.classList.add('todo-edit-view');
+
+        editView.innerHTML = `
+            <input type="text" name="edit-title" value="${todo.title}" required>
+            <input type="date" name="edit-date" value="${todo.dueDate}">
+            <select name="edit-priority">
+                <option ${todo.priority === 'Not defined' ? 'selected' : ''}>Not defined</option>
+                <option ${todo.priority === 'Low' ? 'selected' : ''}>Low</option>
+                <option ${todo.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+                <option ${todo.priority === 'High' ? 'selected' : ''}>High</option>
+            </select>
+            <textarea name="edit-description">${todo.description || ''}</textarea>
+            <div class="edit-actions">
+                <button type="submit" class="save-edit-btn">Save</button>
+                <button type="button" class="cancel-edit-btn">Cancel</button>
+             </div>
+        `;
+        todoForm.appendChild(todoDiv);
+        todoForm.appendChild(editView);
+
         if (todo.checklist.length>0){
             const ul = document.createElement('ul');
             ul.classList.add('sub-task-list');
@@ -41,7 +69,7 @@ export function renderProject(project){
         deleteBtn.dataset.title=todo.title;
         todoDiv.appendChild(deleteBtn);
 
-        todoContainer.appendChild(todoDiv);
+        todoContainer.appendChild(todoForm);
     });
 };
 export function renderSidebar(library){

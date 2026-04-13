@@ -6,7 +6,6 @@ import { Library } from "./library.js";
 //
 let myLibrary = new Library();
 let currentProject;
-
 //
 const form=document.getElementById('todo-form');
 
@@ -31,6 +30,7 @@ form.addEventListener('submit', (e)=>{
     }
     currentProject.addTodo(newTask);
     renderProject(currentProject);
+    renderSidebar(myLibrary);
 
     form.reset();
 });
@@ -88,7 +88,44 @@ document.addEventListener('click', (e) => {
         currentProject.removeTodo(deleteTitle);
         renderProject(currentProject);
     }
-    saveData()
+    saveData();
+    renderSidebar(myLibrary);
+});
+//
+const content = document.querySelector('#content');
+content.addEventListener('click', (e) => {
+    if (e.target.classList.contains('edit-btn')) {
+        const form = e.target.closest('.todo-item-form');
+        if (form) {
+            form.classList.add('editing');
+        
+            const todoId = form.dataset.todoId; 
+            
+            console.log("ID recuperado con éxito:", todoId);
+        }
+    }
+    if (e.target.classList.contains('cancel-edit-btn')) {
+        const form = e.target.closest('.todo-item-form');
+        form.classList.remove('editing');
+    }
+});
+//
+content.addEventListener('submit', (e) => {
+    if (e.target.classList.contains('todo-item-form')) {
+        e.preventDefault();
+        const form = e.target;
+        const todoId = form.dataset.todoId;
+
+        const newTitle = form.querySelector('[name="edit-title"]').value;
+        const newDate = form.querySelector('[name="edit-date"]').value;
+        const newPriority = form.querySelector('[name="edit-priority"]').value;
+        const newDescription = form.querySelector('[name="edit-description"]').value;
+
+        currentProject.updateTask(todoId, newTitle, newDate, newPriority, newDescription);
+
+        saveData();
+        renderProject(currentProject);
+    }
 });
 //
 function saveData(){
@@ -104,11 +141,12 @@ if (savedData){
         projItem.todos.forEach(todoItem => {
             const todo = new Todo(
                 todoItem.title,
-                todoItem.description,
                 todoItem.dueDate,
                 todoItem.priority,
+                todoItem.description,
                 todoItem.checklist
             );
+            todo.id = todoItem.id
             project.addTodo(todo);
         });
         return project;

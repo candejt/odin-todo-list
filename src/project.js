@@ -13,4 +13,13 @@ export class Project{
     getTodos(){
         return this.todos;
     }
+    updateTask(id, newTitle, newDate, newPriority, newDescription){
+        const taskIndex = this.todos.findIndex(todo => todo.id === id);
+        if (taskIndex !== -1) {
+            this.todos[taskIndex].title = newTitle;
+            this.todos[taskIndex].dueDate = newDate;
+            this.todos[taskIndex].priority = newPriority;
+            this.todos[taskIndex].description = newDescription;
+        }
+    }
 }

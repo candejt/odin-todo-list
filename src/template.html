@@ -12,22 +12,24 @@
         <input type="text" id="new-project-name" placeholder="Project Name">
         <button id="add-project-btn">New Project</button>
     </nav>
-    <div id="content"></div>
-    <div id="form-container">
-        <form id="todo-form">
-            <input type="text" id="title" placeholder="Title" required>
-            <input type="date" id="dueDate">
-            <select id="priority">
-                <option value="Not defined">-</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-            </select>
-            <textarea name="description" id="description" placeholder="Add a description"></textarea>
-            <label for="checklist-input">Checklist:</label>
-                <input type="text" id="checklist-input" placeholder="Ex: bread, milk, eggs">
-            <button type="submit">Add Task</button>
-        </form>
+    <div class="main-view">
+        <div id="content"></div>
+        <div id="form-container">
+            <form id="todo-form">
+                <input type="text" id="title" placeholder="Title" required>
+                <input type="date" id="dueDate">
+                <select id="priority">
+                    <option value="Not defined">-</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+                <textarea name="description" id="description" placeholder="Add a description"></textarea>
+                <label for="checklist-input">Checklist:</label>
+                    <input type="text" id="checklist-input" placeholder="Ex: bread, milk, eggs">
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
