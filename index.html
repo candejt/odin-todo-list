@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+<script defer src="main.js"></script></head>
+<body>
+    <nav id="sidebar">
+        <h2>My Projects</h2>
+        <ul id="project-list"></ul>
+        <input type="text" id="new-project-name" placeholder="Project Name">
+        <button id="add-project-btn">New Project</button>
+    </nav>
+    <div class="main-view">
+        <div id="content"></div>
+        <div id="form-container">
+            <form id="todo-form">
+                <div class="form-row">
+                    <input type="text" id="title" placeholder="Title" required>
+                    <input type="date" id="dueDate">
+                    <select id="priority">
+                        <option value="Not defined">Not defined</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <textarea name="description" id="description" placeholder="Add a description"></textarea>
+                <label for="checklist-input"></label>
+                    <input type="text" id="checklist-input" placeholder="Checklist. i.e: bread, milk, eggs"> 
+                <div class="form-footer">
+                    <button type="submit" class="add-task-btn">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
