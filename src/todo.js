@@ -1,12 +1,12 @@
 
 export class Todo{
-    constructor(title, dueDate, priority, description){
+    constructor(title, dueDate, priority, description, checklist=[]){
         this.id = Date.now().toString();
         this.title=title;
         this.dueDate=dueDate;
         this.priority=priority;
         this.description=description;
-        this.checklist=[];
+        this.checklist=checklist;
         this.completed=false;
     }
     addChecklistItem(text){

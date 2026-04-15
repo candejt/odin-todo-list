@@ -46,7 +46,7 @@ projectList.addEventListener('click', (e) => {
     const name = projectLi.dataset.project;
     console.log(name);
 
-    if (e.target.classList.contains('project-delete-btn')){
+    if (e.target.classList.contains('delete-project-btn')){
         myLibrary.removeProject(name);
 
         if (currentProject.name === name){
@@ -82,7 +82,7 @@ addProjectBtn.addEventListener('click',()=>{
 });
 //
 document.addEventListener('click', (e) => {
-    if(e.target.classList.contains('delete-btn')){
+    if(e.target.classList.contains('delete-task-btn')){
         const deleteTitle=e.target.dataset.title;
 
         currentProject.removeTodo(deleteTitle);
@@ -154,22 +154,24 @@ if (savedData){
     currentProject=myLibrary.projects[0];
 }else{
     const defaultProject=new Project("Default");
+
+    const defaultTask = new Todo(
+        "Hello! I'm an example",
+        "2026-12-31",
+        "Medium",
+        "Write something awesome",
+        [
+            { text: "Journaling", done: false},
+            { text: "Napping", done: false},
+            { text: "Eat ice cream", done: false}
+        ]    
+    )
+    defaultProject.addTodo(defaultTask);
     myLibrary.addProject(defaultProject);
     currentProject=defaultProject;
+
+    saveData();
 }
 renderSidebar(myLibrary);
 renderProject(currentProject);
 
-// 
-function init() {
-    if (myLibrary.projects.length > 0) {
-        currentProject = myLibrary.projects[0];
-    } else {
-        const general = new Project('General');
-        myLibrary.addProject(general);
-        currentProject = general;
-    }
-    renderSidebar(myLibrary);
-    renderProject(currentProject);
-}
-init(); 

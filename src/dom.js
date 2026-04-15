@@ -22,11 +22,14 @@ export function renderProject(project){
         todoDiv.classList.add('todo-item');
         todoDiv.innerHTML=`
             <div class="todo-header">
-                <h4>${todo.title}</h4>
+                <h3>${todo.title}</h3>
                 <p>Date: ${todo.dueDate || 'No date'} | Priority: ${todo.priority || 'Normal'}</p>
-                <button type="button" class="edit-btn">Edit</button>
+                <div class="button-group">
+                    <button type="button" class="edit-btn">Edit</button>
+                    <button type="button" class="delete-task-btn" data-title="${todo.title}">Delete</button>
+                </div>
             </div>
-            <p class="todo-description">Description:<br> ${todo.description || ''}</p>
+            <p class="todo-description">${todo.description || ''}</p>
         `;
         const editView = document.createElement('div');
         editView.classList.add('todo-edit-view');
@@ -41,7 +44,15 @@ export function renderProject(project){
                 <option ${todo.priority === 'High' ? 'selected' : ''}>High</option>
             </select>
             <textarea name="edit-description">${todo.description || ''}</textarea>
-            <div class="edit-actions">
+            <ul class="sub-task-list edit-mode">
+                ${todo.checklist.map((item, index) => `
+                    <li>
+                        <input type="checkbox" ${item.done ? 'checked' : ''} data-index="${index}" class="edit-check">
+                        <input type="text" value="${item.text}" class="edit-check-text" data-index="${index}">
+                    </li>
+                `).join('')}
+            </ul>
+            <div class="form-footer">
                 <button type="submit" class="save-edit-btn">Save</button>
                 <button type="button" class="cancel-edit-btn">Cancel</button>
              </div>
@@ -63,11 +74,6 @@ export function renderProject(project){
             });
             todoDiv.appendChild(ul);
         }
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent="Delete";
-        deleteBtn.classList.add('delete-btn');
-        deleteBtn.dataset.title=todo.title;
-        todoDiv.appendChild(deleteBtn);
 
         todoContainer.appendChild(todoForm);
     });
@@ -80,19 +86,13 @@ export function renderSidebar(library){
         const li = document.createElement('li');
         li.dataset.project = project.name;
         li.style.cursor= "pointer";
-
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = project.name;
-        nameSpan.classList.add('project-name-text');
-        li.appendChild(nameSpan);
-
-        const projectDeleteBtn=document.createElement('button');
-        projectDeleteBtn.textContent = "Delete";
-        projectDeleteBtn.classList.add('project-delete-btn');
-        projectDeleteBtn.dataset.project = project.name;
-        projectDeleteBtn.style.cursor= "pointer";
-        li.appendChild(projectDeleteBtn);
-
+        li.innerHTML = `
+            <div class="project-header-container">
+                <span class="project-name-text">${project.name}</span>
+                <button class="delete-project-btn" data-name="${project.name}"></button>
+            </div>
+         `;        
+    
         if (project.todos.length > 0){
             const previewList = document.createElement('ul'); 
             previewList.classList.add('preview-tasks');
